@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
 
+const LOCAL_STORAGE = 'NOTES'
+
 function App() {
   const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+      const StoredNotes = JSON.parse(localStorage.getItem(LOCAL_STORAGE))
+      if(StoredNotes)setNotes(StoredNotes)
+  },[])
+
+  useEffect(() =>{
+    localStorage.setItem(LOCAL_STORAGE, JSON.stringify(notes))
+  },[notes])
 
   function addNote(newNote) {
     setNotes(prevNotes => {
